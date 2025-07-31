@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ========================================================= */
+        /* CSS for Mobile Header, Sidebar, and Overlay (Final Fix)   */
+        /* ========================================================= */
+
+        /* Ensure the main content starts below the mobile header */
+        @media (max-width: 767px) {
+            main {
+                padding-top: 64px !important;
+            }
+        }
+
+        /* On desktop, the mobile header should be hidden */
+        @media (min-width: 768px) {
+            #mobile-header {
+                display: none !important;
+            }
+        }
+
+        /* Sidebar and Overlay Styling for Mobile */
+        @media (max-width: 767px) {
+            /* The mobile header container to sit on top of everything */
+            #mobile-header {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                z-index: 60;
+                background-color: white; /* Add a background color to cover elements below */
+            }
+
+            /* Style for the sidebar itself */
+            aside {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 256px;
+                height: 100%;
+                z-index: 50;
+                transform: translateX(-100%);
+                transition: transform 0.3s ease-in-out;
+            }
+
+            /* Active state for the sidebar (visible) */
+            aside.show {
+                transform: translateX(0);
+            }
+            
+            /* Style for the overlay behind the sidebar */
+            .sidebar-overlay {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.5);
+                z-index: 40; 
+                display: none;
+                transition: opacity 0.3s ease-in-out;
+            }
+
+            /* Active state for the overlay (visible) */
+            .sidebar-overlay.show {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex">
+
+    <div id="mobile-header" class="md:hidden flex justify-between items-center p-4 shadow-md">
+        <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 transition duration-200">
+            <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+            </svg>
+        </button>
+        <h1 class="text-2xl font-extrabold text-gray-800">Settings</h1>
+        <button id="notification-bell-mobile" class="text-gray-600 hover:text-blue-600 transition duration-200">
+            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L14 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+            </svg>
+        </button>
+    </div>
+
+    <div id="sidebar-overlay" class="sidebar-overlay md:hidden"></div>
+
+    <aside class="w-64 bg-sidebar-bg text-white p-6 flex flex-col shadow-lg md:relative h-full md:h-auto z-50" style="background-color: #16213e;">
+        <h2 class="text-2xl font-bold mb-8">Expense Tracker</h2>
+        <nav class="flex-grow">
+            <ul>
+                <li class="mb-2"><a href="#" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700">Dashboard</a></li>
+                <li class="mb-2"><a href="#" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700">Transactions</a></li>
+                <li class="mb-2"><a href="#" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700">Settings</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <main class="flex-grow p-4 sm:p-8 rounded-l-xl shadow-inner overflow-y-auto w-full" style="background-color: #f0f2f5;">
+        <div>
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-6">Settings</h1>
+            <p>Content for the settings page...</p>
+        </div>
+    </main>
+
+    <script>
+        // =========================================================
+        // JavaScript for the sidebar toggle (minimized version)
+        // =========================================================
+        const sidebar = document.querySelector('aside');
+        const sidebarOverlay = document.getElementById('sidebar-overlay');
+        const mobileMenuButton = document.getElementById('mobile-menu-button');
+        
+        function toggleSidebar() {
+            if (sidebar) sidebar.classList.toggle('show');
+            if (sidebarOverlay) sidebarOverlay.classList.toggle('show');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (mobileMenuButton) {
+                mobileMenuButton.addEventListener('click', toggleSidebar);
+            }
+            if (sidebarOverlay) {
+                sidebarOverlay.addEventListener('click', toggleSidebar);
+            }
+        });
+    </script>
+</body>
+</html>

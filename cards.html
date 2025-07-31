@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Cards</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="min-h-screen flex">
+
+    <div id="sidebar-overlay" class="sidebar-overlay md:hidden"></div>
+
+    <aside class="w-64 bg-sidebar-bg text-white p-6 flex flex-col shadow-lg md:relative absolute h-full md:h-auto z-50" style="background-color: var(--color-sidebar-bg);">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Expense Tracker</h2>
+            <p id="welcome-message" class="text-gray-300 text-sm">Welcome, User!</p>
+        </div>
+        <nav class="flex-grow">
+            <ul>
+                <li class="mb-2">
+                    <a href="dashboard.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Dashboard</a>
+                </li>
+                <li class="mb-2">
+                    <a href="transactions.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Transactions</a>
+                </li>
+                <li class="mb-2">
+                    <a href="cards.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Cards</a>
+                </li>
+                <li class="mb-2">
+                    <a href="bank-accounts.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Bank Accounts</a>
+                </li>
+                <li class="mb-2">
+                    <a href="notifications.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Notifications</a>
+                </li>
+                <li class="mb-2">
+                    <a href="settings.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Settings</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="mt-auto">
+            <button id="logout-button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                Logout
+            </button>
+        </div>
+    </aside>
+
+    <main class="flex-grow p-4 sm:p-8 rounded-l-xl shadow-inner overflow-y-auto w-full" style="background-color: var(--color-main-content-bg);">
+        <div class="md:hidden flex justify-between items-center mb-6">
+            <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 transition duration-200">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+            <h1 class="text-2xl font-extrabold text-gray-800" style="color: var(--color-text-dark);">Cards</h1>
+            <button id="notification-bell-mobile" class="text-gray-600 hover:text-blue-600 transition duration-200">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L14 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                </svg>
+            </button>
+        </div>
+
+        <div>
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-6" style="color: var(--color-text-dark);">Cards</h1>
+            <p class="text-gray-600 mb-6" style="color: var(--color-text-dark);">Manage your cards here.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="p-6 rounded-xl shadow-lg" style="background-color: var(--color-card-bg);">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4" style="color: var(--color-text-dark);">Calendar</h2>
+                    <div id="calendar-container" class="w-full">
+                        </div>
+                </div>
+                <div class="p-6 rounded-xl shadow-lg flex flex-col items-center justify-center" style="background-color: var(--color-card-bg);">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4" style="color: var(--color-text-dark);">Income vs. Expense</h2>
+                    <div class="relative w-full max-w-sm mx-auto">
+                        <canvas id="incomeExpenseChart"></canvas>
+                    </div>
+                    <div id="chart-legend" class="mt-4 flex flex-col items-start text-sm text-gray-700">
+                        <div class="flex items-center mb-1">
+                            <span class="w-4 h-4 rounded-full mr-2" style="background-color: var(--chart-income-color);"></span>
+                            <span>Income: <span id="chart-income-amount">₹0.00</span></span>
+                        </div>
+                        <div class="flex items-center">
+                            <span class="w-4 h-4 rounded-full mr-2" style="background-color: var(--chart-expense-color);"></span>
+                            <span>Expense: <span id="chart-expense-amount">₹0.00</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- <div id="global-notification-toast" class="notification-toast"></div> -->
+
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="confirmation-modal-title" class="text-xl font-bold text-gray-800 mb-4">Confirm Action</h2>
+            <p id="confirmation-modal-message" class="text-gray-700 mb-6"></p>
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="cancel-confirmation-button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                    Cancel
+                </button>
+                <button type="button" id="confirm-action-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/cards.js"></script>
+    <script type="module" src="js/modals.js"></script>
+</body>
+</html>

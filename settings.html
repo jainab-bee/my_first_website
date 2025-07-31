@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker - Settings</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="min-h-screen flex">
+
+    <div id="sidebar-overlay" class="sidebar-overlay md:hidden"></div>
+
+    <aside class="w-64 bg-sidebar-bg text-white p-6 flex flex-col shadow-lg md:relative absolute h-full md:h-auto z-50" style="background-color: var(--color-sidebar-bg);">
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold mb-2">Expense Tracker</h2>
+            <p id="welcome-message" class="text-gray-300 text-sm">Welcome, User!</p>
+        </div>
+        <nav class="flex-grow">
+            <ul>
+                <li class="mb-2">
+                    <a href="dashboard.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Dashboard</a>
+                </li>
+                <li class="mb-2">
+                    <a href="transactions.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Transactions</a>
+                </li>
+                <li class="mb-2">
+                    <a href="cards.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Cards</a>
+                </li>
+                <li class="mb-2">
+                    <a href="bank-accounts.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Bank Accounts</a>
+                </li>
+                <li class="mb-2">
+                    <a href="notifications.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Notifications</a>
+                </li>
+                <li class="mb-2">
+                    <a href="settings.html" class="sidebar-link block py-2 px-4 rounded-lg hover:bg-gray-700 transition duration-200">Settings</a>
+                </li>
+            </ul>
+        </nav>
+        <div class="mt-auto">
+            <button id="logout-button" class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                Logout
+            </button>
+        </div>
+    </aside>
+
+
+    <main class="flex-grow p-4 sm:p-8 rounded-l-xl shadow-inner overflow-y-auto w-full" style="background-color: var(--color-main-content-bg);">
+        <div class="md:hidden flex justify-between items-center mb-6">
+            <button id="mobile-menu-button" class="text-gray-600 hover:text-blue-600 transition duration-200">
+                <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24">
+                    <path fill-rule="evenodd" d="M3 5a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1zm0 6a1 1 0 011-1h16a1 1 0 110 2H4a1 1 0 01-1-1z" clip-rule="evenodd"></path>
+                </svg>
+            </button>
+            <h1 class="text-2xl font-extrabold text-gray-800" style="color: var(--color-text-dark);">Settings</h1>
+            <button id="notification-bell-mobile" class="text-gray-600 hover:text-blue-600 transition duration-200">
+                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 2a6 6 0 00-6 6v3.586l-.707.707A1 1 0 004 14h12a1 1 0 00.707-1.707L14 11.586V8a6 6 0 00-6-6zM10 18a3 3 0 01-3-3h6a3 3 0 01-3 3z" />
+                </svg>
+            </button>
+        </div>
+
+        <div>
+            <h1 class="text-4xl font-extrabold text-gray-800 mb-6" style="color: var(--color-text-dark);">Settings</h1>
+
+            <div class="space-y-8">
+                <div class="bg-card-bg p-6 rounded-xl shadow-lg">
+                    <h2 id="profile-account-management-toggle" class="text-2xl font-bold text-gray-800 mb-4 cursor-pointer flex justify-between items-center">
+                        Profile & Account Management
+                        <span class="toggle-icon text-gray-500 transform transition-transform duration-200">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                        </span>
+                    </h2>
+                    <div id="profile-account-management-content" class="hidden space-y-6">
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 id="change-password-toggle" class="text-lg font-semibold text-gray-700 cursor-pointer flex justify-between items-center">
+                                Change Password
+                                <span class="toggle-icon text-gray-500 transform transition-transform duration-200">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </span>
+                            </h3>
+                            <div id="change-password-form-container" class="hidden pt-4">
+                                <form id="change-password-form" class="space-y-3">
+                                    <div>
+                                        <label for="current-password" class="block text-sm font-medium text-gray-600">Current Password</label>
+                                        <input type="password" id="current-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="new-password" class="block text-sm font-medium text-gray-600">New Password</label>
+                                        <input type="password" id="new-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="confirm-new-password" class="block text-sm font-medium text-gray-600">Confirm New Password</label>
+                                        <input type="password" id="confirm-new-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    </div>
+                                    <button type="submit" class="btn-primary-gradient text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                                        Change Password
+                                    </button>
+                                    <div id="password-message-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-2" role="alert">
+                                        <span id="password-message-text" class="block sm:inline"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="border-b border-gray-200 pb-4">
+                            <h3 id="update-email-toggle" class="text-lg font-semibold text-gray-700 cursor-pointer flex justify-between items-center">
+                                Update Email
+                                <span class="toggle-icon text-gray-500 transform transition-transform duration-200">
+                                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+                                </span>
+                            </h3>
+                            <div id="update-email-form-container" class="hidden pt-4">
+                                <form id="update-email-form" class="space-y-3">
+                                    <div>
+                                        <label for="current-email" class="block text-sm font-medium text-gray-600">Current Email</label>
+                                        <input type="email" id="current-email" disabled class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm bg-gray-100 sm:text-sm">
+                                    </div>
+                                    <div>
+                                        <label for="new-email" class="block text-sm font-medium text-gray-600">New Email</label>
+                                        <input type="email" id="new-email" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                                    </div>
+                                    <button type="submit" class="btn-primary-gradient text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                                        Update Email
+                                    </button>
+                                    <div id="email-message-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-2" role="alert">
+                                        <span id="email-message-text" class="block sm:inline"></span>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+
+                        <div class="pt-6">
+                            <h3 class="text-lg font-semibold text-red-700 mb-2">Delete Account</h3>
+                            <p class="text-sm text-gray-600 mb-4">
+                                Permanently delete your account and all associated data. This action cannot be undone.
+                            </p>
+                            <button id="delete-account-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                                Delete My Account
+                            </button>
+                            <div id="delete-account-message-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-2" role="alert">
+                                <span id="delete-account-message-text" class="block sm:inline"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- <div class="bg-card-bg p-6 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Theme Settings</h2>
+                    <div class="flex items-center justify-between">
+                        <span class="text-lg font-medium text-gray-700">Dark Mode</span>
+                        <label for="dark-mode-toggle" class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="dark-mode-toggle" class="sr-only peer">
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+                        </label>
+                    </div>
+                </div> -->
+
+                <div class="bg-card-bg p-6 rounded-xl shadow-lg">
+                    <h2 class="text-2xl font-bold text-gray-800 mb-4">Data Management</h2>
+                    <div>
+                        <h3 class="text-lg font-semibold text-red-700 mb-2">Clear All Your Data</h3>
+                        <p class="text-sm text-gray-600 mb-4">
+                            This will permanently delete all your transactions, bills, and notifications. This action cannot be undone.
+                        </p>
+                        <button id="clear-all-data-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                            Clear All My Data
+                        </button>
+                        <div id="clear-data-message-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-2" role="alert">
+                            <span id="clear-data-message-text" class="block sm:inline"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="space-y-8">
+    <div class="bg-card-bg p-6 rounded-xl shadow-lg">
+        <h2 class="text-2xl font-bold text-gray-800 mb-4">Monthly Expense Budget</h2>
+        <p class="text-sm text-gray-600 mb-4">Set your maximum spending for the current month. Exceeding this will trigger a reminder on your dashboard.</p>
+
+        <form id="monthly-budget-form" class="space-y-4">
+            <div>
+                <label for="budget-amount" class="block text-sm font-medium text-gray-600">Budget Amount (for <span id="budget-month-display"></span>)</label>
+                <input type="number" id="budget-amount" step="0.01" min="0" placeholder="e.g., 5000.00"
+                       class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+            </div>
+            <button type="submit" class="btn-primary-gradient text-white py-2 px-4 rounded-lg transition duration-300 ease-in-out transform hover:scale-105 shadow-md">
+                Set Budget
+            </button>
+            <div id="budget-message-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mt-2" role="alert">
+                <span id="budget-message-text" class="block sm:inline"></span>
+            </div>
+        </form>
+    </div>
+
+    </div>
+    </main>
+
+    <div id="confirmation-modal" class="modal-overlay">
+        <div class="modal-content">
+            <h2 id="confirmation-modal-title" class="text-xl font-bold text-gray-800 mb-4">Confirm Action</h2>
+            <p id="confirmation-modal-message" class="text-gray-700 mb-6"></p>
+            <div class="flex justify-end space-x-4">
+                <button type="button" id="cancel-confirmation-button" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                    Cancel
+                </button>
+                <button type="button" id="confirm-action-button" class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-lg transition duration-300 ease-in-out">
+                    Confirm
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"></script>
+    <script type="module" src="js/main.js"></script>
+    <script type="module" src="js/settings.js"></script>
+    <script type="module" src="js/modals.js"></script>
+</body>
+</html>
