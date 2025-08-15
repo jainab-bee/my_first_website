@@ -1,6 +1,4 @@
-
 import { supabase, formatCurrency, showGlobalNotification, checkAuthAndRedirect, logoutUser } from './main.js';
- 
 
 const welcomeMessage = document.getElementById('welcome-message');
 const sidebar = document.querySelector('aside');
@@ -15,18 +13,17 @@ const dashboardTotalExpenses = document.getElementById('dashboard-total-expenses
 const latestTransactionsList = document.getElementById('latest-transactions-list');
 const noLatestTransactionsMessage = document.getElementById('no-latest-transactions-message');
 
- 
 const dashboardBudgetMonthDisplay = document.getElementById('dashboard-budget-month-display');
 const displayBudgetAmount = document.getElementById('display-budget-amount');
 const displaySpentAmount = document.getElementById('display-spent-amount');
 const displayRemainingStatus = document.getElementById('display-remaining-status');
 const displayRemainingAmount = document.getElementById('display-remaining-amount');
 const budgetProgressBar = document.getElementById('budget-progress-bar');
-const budgetExceededReminder = document.getElementById('budget-exceeded-reminder'); 
-const exceededMessage = document.getElementById('exceeded-message'); 
-const budgetStatusContent = document.getElementById('budget-status-content'); 
+const budgetExceededReminder = document.getElementById('budget-exceeded-reminder');
+const exceededMessage = document.getElementById('exceeded-message');
+const budgetStatusContent = document.getElementById('budget-status-content');
 const noBudgetSetMessage = document.getElementById('no-budget-set-message');
- 
+
 const dismissBudgetReminderButton = budgetExceededReminder ? budgetExceededReminder.querySelector('[data-dismiss="#budget-exceeded-reminder"]') : null;
 if (dismissBudgetReminderButton) {
     dismissBudgetReminderButton.addEventListener('click', () => {
@@ -47,16 +44,17 @@ function toggleSidebar() {
 function getCurrentBudgetPeriod() {
     const date = new Date();
     const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
     return `${year}-${month}`;
 }
  
-
 document.addEventListener('DOMContentLoaded', async () => {
     const session = await checkAuthAndRedirect(true, '/index.html');
 
     if (session) {
-        if (welcomeMessage) welcomeMessage.textContent = `Welcome, ${session.user.email}`;
+         
+        const username = session.user.user_metadata?.username || session.user.email;
+        if (welcomeMessage) welcomeMessage.textContent = `Welcome, ${username}`;
 
         document.querySelectorAll('.sidebar-link').forEach(link => {
             link.classList.remove('active');
@@ -83,7 +81,6 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         const logoutBtn = document.getElementById('logout-button');
         if (logoutBtn) logoutBtn.addEventListener('click', logoutUser);
-
         
         fetchDashboardData();
 
@@ -111,7 +108,7 @@ async function fetchDashboardData() {
     try {
 
         await Promise.all([
-            fetchMonthlyBudgetStatus(), 
+            fetchMonthlyBudgetStatus(),
             (async () => {
                 const { data: transactions, error } = await supabase
                     .from('transactions')
@@ -146,11 +143,10 @@ function calculateSummary(transactions) {
     let totalExpenses = 0;
 
     transactions.forEach(t => {
- 
         if (t.type === 'income') {
-            totalIncome += parseFloat(t.amount);  
+            totalIncome += parseFloat(t.amount);
         } else {
-            totalExpenses += parseFloat(t.amount); 
+            totalExpenses += parseFloat(t.amount);
         }
     });
 
@@ -174,7 +170,7 @@ function calculateSummary(transactions) {
  */
 function renderLatestTransactions(transactions) {
     if (!latestTransactionsList) return;
-    latestTransactionsList.innerHTML = ''; 
+    latestTransactionsList.innerHTML = '';
 
     if (transactions.length === 0) {
         if (noLatestTransactionsMessage) noLatestTransactionsMessage.classList.remove('hidden');
@@ -186,9 +182,9 @@ function renderLatestTransactions(transactions) {
     transactions.forEach(transaction => {
         const row = document.createElement('tr');
         row.className = 'hover:bg-gray-50';
-         
+        
         const displayNote = transaction.description || transaction.category || 'N/A';
- 
+
         const displayDate = new Date(transaction.date).toLocaleDateString();
 
         row.innerHTML = `
@@ -237,7 +233,7 @@ export async function fetchMonthlyBudgetStatus() {
         console.log("[fetchMonthlyBudgetStatus] Budget data raw:", budgetData, "Error:", budgetError);
 
         let monthlyBudget = 0;
-        if (budgetError && budgetError.code !== 'PGRST116') { 
+        if (budgetError && budgetError.code !== 'PGRST116') {
             throw budgetError;
         } else if (budgetData) {
             monthlyBudget = parseFloat(budgetData.amount);
@@ -249,7 +245,7 @@ export async function fetchMonthlyBudgetStatus() {
             if (noBudgetSetMessage) noBudgetSetMessage.classList.remove('hidden');
             if (budgetStatusContent) budgetStatusContent.classList.add('hidden');
             if (budgetExceededReminder) budgetExceededReminder.classList.add('hidden');
-            return; 
+            return;
         }
         const startOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString();
         const endOfMonth = new Date(new Date().getFullYear(), new Date().getMonth() + 1, 0, 23, 59, 59, 999).toISOString();
@@ -258,10 +254,10 @@ export async function fetchMonthlyBudgetStatus() {
 
         const { data: transactions, error: transactionsError } = await supabase
             .from('transactions')
-            .select('amount, type, date') 
+            .select('amount, type, date')
             .eq('user_id', user.id)
-            .gte('date', startOfMonth) 
-            .lte('date', endOfMonth); 
+            .gte('date', startOfMonth)
+            .lte('date', endOfMonth);
 
         console.log("[fetchMonthlyBudgetStatus] Transactions for budget comparison raw:", transactions, "Error:", transactionsError);
 
@@ -307,29 +303,28 @@ export async function fetchMonthlyBudgetStatus() {
             } else if (percentageSpent >= 75 && percentageSpent < 100) {
                 budgetProgressBar.classList.remove('bg-blue-600', 'bg-red-600');
                 budgetProgressBar.classList.add('bg-yellow-500');
-            } else { 
+            } else {
                 budgetProgressBar.classList.remove('bg-blue-600', 'bg-yellow-500');
                 budgetProgressBar.classList.add('bg-red-600');
             }
         }
 
-        if (remaining < 0) {  
+        if (remaining < 0) {
             if (budgetExceededReminder) {
                 exceededMessage.textContent = `You have spent ${formatCurrency(Math.abs(remaining))} more than your monthly budget of ${formatCurrency(monthlyBudget)}!`;
-                budgetExceededReminder.classList.remove('hidden'); 
+                budgetExceededReminder.classList.remove('hidden');
             }
         } else {
-            if (budgetExceededReminder) budgetExceededReminder.classList.add('hidden');  
+            if (budgetExceededReminder) budgetExceededReminder.classList.add('hidden');
         }
         console.log("[fetchMonthlyBudgetStatus] Budget status updated successfully.");
 
     } catch (error) {
         console.error("[fetchMonthlyBudgetStatus] Error fetching monthly budget status:", error.message);
- 
+
         if (budgetExceededReminder) {
             exceededMessage.textContent = `Could not load budget status: ${error.message}`;
             budgetExceededReminder.classList.remove('hidden');
         }
     }
 }
- 

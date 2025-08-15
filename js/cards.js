@@ -27,7 +27,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     const session = await checkAuthAndRedirect(true, '/index.html');
 
     if (session) {
-        if (welcomeMessage) welcomeMessage.textContent = `Welcome, ${session.user.email}`;
+        const username = session.user.user_metadata?.username || session.user.email;
+        if (welcomeMessage) welcomeMessage.textContent = `Welcome, ${username}`;
         
         document.querySelectorAll('.sidebar-link').forEach(link => {
             link.classList.remove('active');

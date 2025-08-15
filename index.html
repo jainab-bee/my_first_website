@@ -8,10 +8,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="min-h-screen flex">
+<body class="min-h-screen flex flex-col items-center justify-center p-4" style="background-color: var(--color-dark-bg);">
 
-    <div id="auth-section" class="flex-grow flex items-center justify-center p-4">
-        <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+    <div id="auth-section" class="w-full max-w-md my-8">
+        <div class="bg-white p-8 rounded-xl shadow-2xl w-full">
             <h2 class="text-3xl font-bold text-center text-gray-800 mb-8">Welcome to Expense Tracker</h2>
 
             <div id="auth-message-box" class="hidden bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg relative mb-4" role="alert">
@@ -23,9 +23,18 @@
                     <label for="email" class="block text-sm font-medium text-gray-700">Email address</label>
                     <input type="email" id="email" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
+ 
+                <div id="username-group" class="hidden">
+                    <label for="username" class="block text-sm font-medium text-gray-700">Username</label>
+                    <input type="text" id="username" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" id="password" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                </div>
+                <div id="confirm-password-group" class="hidden">
+                    <label for="confirm-password" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input type="password" id="confirm-password" class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
                 </div>
                 <div>
                     <button type="submit" id="auth-button" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md text-sm font-medium text-white btn-primary-gradient">
@@ -41,9 +50,56 @@
         </div>
     </div>
 
+    <!-- New Features Section -->
+    <div class="w-full max-w-4xl p-4 my-8 md:my-12">
+        <h3 class="text-3xl font-bold text-center text-white mb-8">Features</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <!-- Feature Card 1: Monthly Budgeting -->
+            <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-purple-200 rounded-full flex items-center justify-center text-purple-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M11 3a1 1 0 100 2h2a1 1 0 100-2h-2zM9 11a1 1 0 100 2h2a1 1 0 100-2H9zM7 7a1 1 0 100 2h2a1 1 0 100-2H7zM5 15a1 1 0 100 2h2a1 1 0 100-2H5zM15 7a1 1 0 100 2h2a1 1 0 100-2h-2zM13 15a1 1 0 100 2h2a1 1 0 100-2h-2zM7 11a1 1 0 100 2h2a1 1 0 100-2H7zM3 11a1 1 0 100 2h2a1 1 0 100-2H3z" />
+                    </svg>
+                </div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2">Monthly Budgeting</h4>
+                <p class="text-gray-600">Set a budget and get reminders when you're close to exceeding it.</p>
+            </div>
+            <!-- Feature Card 2: Visual Calendar -->
+            <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-blue-200 rounded-full flex items-center justify-center text-blue-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2">Visual Calendar</h4>
+                <p class="text-gray-600">See your spending patterns at a glance with color-coded dates.</p>
+            </div>
+            <!-- Feature Card 3: Add, Edit, Delete -->
+            <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-yellow-200 rounded-full flex items-center justify-center text-yellow-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M21.121 8.529c1.265-1.265 1.265-3.321 0-4.586s-3.321-1.265-4.586 0L8.03 12.453l-1.414 4.242 4.243-1.414L21.121 8.53zM5.5 18H2v-3.5L14.717 1.783l4.5 4.5L5.5 18z"/>
+                    </svg>
+                </div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2">Full Control</h4>
+                <p class="text-gray-600">Easily add, edit, or delete all your income and expense entries.</p>
+            </div>
+            <!-- Feature Card 4: Secure & Dynamic -->
+            <div class="bg-white p-6 rounded-xl shadow-lg text-center">
+                <div class="w-16 h-16 mx-auto mb-4 bg-green-200 rounded-full flex items-center justify-center text-green-600">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.894.553L7.382 10.5l-1.5-1.5a1 1 0 10-1.414 1.414l2.5 2.5a1 1 0 001.414 0L15 7.414a1 1 0 00-1.414-1.414l-4.293 4.293z" clip-rule="evenodd" />
+                    </svg>
+                </div>
+                <h4 class="font-bold text-xl text-gray-800 mb-2">Secure & Dynamic</h4>
+                <p class="text-gray-600">Your data is safe and updates in real-time with Supabase.</p>
+            </div>
+        </div>
+    </div>
+
+
     <div id="global-notification-toast" class="notification-toast"></div>
 
-    <script type="module" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm"></script>
     <script type="module" src="js/main.js"></script>
     <script type="module" src="js/auth.js"></script>
 </body>
