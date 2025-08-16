@@ -2,21 +2,24 @@ import { supabase, showMessage, checkAuthAndRedirect, showGlobalNotification } f
 
 const authForm = document.getElementById('auth-form');
 const emailInput = document.getElementById('email');
-const usernameInput = document.getElementById('username');  
-const usernameGroup = document.getElementById('username-group');  
+const usernameInput = document.getElementById('username');  
+const usernameGroup = document.getElementById('username-group');  
 const passwordInput = document.getElementById('password');
-const confirmPasswordInput = document.getElementById('confirm-password');  
-const confirmPasswordGroup = document.getElementById('confirm-password-group');  
+const confirmPasswordInput = document.getElementById('confirm-password');  
+const confirmPasswordGroup = document.getElementById('confirm-password-group');  
 const authButton = document.getElementById('auth-button');
 const toggleAuthModeButton = document.getElementById('toggle-auth-mode');
+const toggleAuthText = document.getElementById('toggle-auth-text'); 
 const authMessageBox = document.getElementById('auth-message-box');
 const authMessageText = document.getElementById('auth-message-text');
 
 let isRegisterMode = false;
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Redirect if already logged in
     checkAuthAndRedirect(false, 'dashboard.html');
+    
+ 
+    updateAuthText();
 
     if (authForm) {
         authForm.addEventListener('submit', async (e) => {
@@ -47,18 +50,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         return;
                     }
 
-                    // ✅ Check if email already exists before registering
-                    const { error: loginError } = await supabase.auth.signInWithPassword({
-                        email,
-                        password: 'fake_wrong_password_123'
-                    });
-
-                    if (loginError && loginError.message.includes("Invalid login credentials")) {
-                        showMessage(authMessageBox, authMessageText, 'Email is already registered. Please log in.', true);
-                        return;
-                    }
-
-                    // Proceed with registration
                     const { error } = await supabase.auth.signUp({ 
                         email, 
                         password,
@@ -72,16 +63,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (error) throw error;
 
                     showMessage(authMessageBox, authMessageText, 'Registration successful! Please check your email to confirm your account.', false);
+                    
                     isRegisterMode = false;
-                    authButton.textContent = 'Login';
-                    toggleAuthModeButton.textContent = 'Register here';
+                    updateAuthText();
                     
                     emailInput.value = '';
                     usernameInput.value = '';
                     passwordInput.value = '';
                     confirmPasswordInput.value = '';
-                    usernameGroup.classList.add('hidden');
-                    confirmPasswordGroup.classList.add('hidden');
 
                 } else {
                     const { error } = await supabase.auth.signInWithPassword({ email, password });
@@ -100,26 +89,35 @@ document.addEventListener('DOMContentLoaded', () => {
         toggleAuthModeButton.addEventListener('click', (e) => {
             e.preventDefault();
             isRegisterMode = !isRegisterMode;
-            if (isRegisterMode) {
-                authButton.textContent = 'Register';
-                toggleAuthModeButton.textContent = 'Login here';
-                usernameGroup.classList.remove('hidden');
-                usernameInput.setAttribute('required', 'true');
-                confirmPasswordGroup.classList.remove('hidden');
-                confirmPasswordInput.setAttribute('required', 'true');
-            } else {
-                authButton.textContent = 'Login';
-                toggleAuthModeButton.textContent = 'Register here';
-                usernameGroup.classList.add('hidden');
-                usernameInput.removeAttribute('required');
-                confirmPasswordGroup.classList.add('hidden');
-                confirmPasswordInput.removeAttribute('required');
-            }
+            updateAuthText(); 
             if (authMessageBox) authMessageBox.classList.add('hidden');
+            
+    
             emailInput.value = '';
             passwordInput.value = '';
             usernameInput.value = '';
             confirmPasswordInput.value = '';
         });
+    }
+
+ 
+    function updateAuthText() {
+        if (isRegisterMode) {
+            authButton.textContent = 'Register';
+            toggleAuthModeButton.textContent = 'Login here';
+            toggleAuthText.textContent = 'Already have an account?';
+            usernameGroup.classList.remove('hidden');
+            usernameInput.setAttribute('required', 'true');
+            confirmPasswordGroup.classList.remove('hidden');
+            confirmPasswordInput.setAttribute('required', 'true');
+        } else {
+            authButton.textContent = 'Login';
+            toggleAuthModeButton.textContent = 'Register here';
+            toggleAuthText.textContent = "Don't have an account?";
+            usernameGroup.classList.add('hidden');
+            usernameInput.removeAttribute('required');
+            confirmPasswordGroup.classList.add('hidden');
+            confirmPasswordInput.removeAttribute('required');
+        }
     }
 });
